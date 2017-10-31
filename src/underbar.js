@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -37,6 +38,11 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    if(array.length < n){
+      return array;
+    }else {
+      return n === undefined ? array[array.length -1]:array.slice(array.length-n);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -45,6 +51,28 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+      if(Array.isArray(collection)){
+        for(let i=0;collection.length >i;i++){
+            if(iterator.length === 3){
+                iterator(collection[i],i,collection);
+            }else if(iterator.length === 2){
+                iterator(collection[i],i);
+
+            }else{
+              iterator(collection[i]);
+            }
+        }
+      }else{
+         for(let key in collection) {
+            if(iterator.length === 3){
+              iterator(collection[key],key,collection);
+            }else if(iterator.length ==2){
+              iterator(collection[key],key);
+            }else{
+              iterator(collection[key]);
+            }
+         }
+      }  
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -66,16 +94,56 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+      let filteredArray =[];
+      for(let i=0;collection.length > i; i++ ){
+        if(test.name ==="isEven"){
+            if(test(collection[i])){
+              filteredArray.push(collection[i]);
+            }
+        }
+        if(test.name ==="isOdd"){
+            if(test(collection[i])){
+              filteredArray.push(collection[i]);
+            }
+        }
+      }
+    return filteredArray;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    let rejectedArray = _.filter(collection,test);
+    let filteredArray =[];
+    for(let i=0; collection.length >i; i++){
+        if(rejectedArray.indexOf(collection[i]) === -1){
+            filteredArray.push(collection[i]);
+        }
+    }
+    return filteredArray;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var newArray = [];
+    if(isSorted && iterator) {
+      for(let i=0; array.length > i; i++){
+        if(newArray.indexOf(array[i]) === -1){
+            if(iterator(array[i])){
+              newArray.push(array[i]);
+            }
+        }
+      }
+    }else{
+      for(let i=0; array.length > i; i++){
+        if(newArray.indexOf(array[i]) === -1){
+          newArray.push(array[i]);
+        }
+      }
+    }
+
+    return newArray;
   };
 
 

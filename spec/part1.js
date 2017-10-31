@@ -10,10 +10,10 @@
 
       it('should return whatever value is passed into it', function() {
         var uniqueObject = {};
-        expect(_.identity(1)).to.eql(1);
-        expect(_.identity('string')).to.eql('string');
-        expect(_.identity(false)).to.eql(false);
-        expect(_.identity(uniqueObject)).to.eql({});
+        expect(_.identity(1)).to.equal(1);
+        expect(_.identity('string')).to.equal('string');
+        expect(_.identity(false)).to.be.false;
+        expect(_.identity(uniqueObject)).to.equal(uniqueObject);
       });
     });
 
@@ -346,7 +346,7 @@
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
 
-        expect(_.uniq(FILL_ME_IN)).to.eql([1, 2]);
+        expect(_.uniq(numbers,true,iterator)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
