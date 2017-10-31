@@ -130,6 +130,7 @@
     if(isSorted && iterator) {
       for(let i=0; array.length > i; i++){
         if(newArray.indexOf(array[i]) === -1){
+            console.log('iterator',iterator(array[i]))
             if(iterator(array[i])){
               newArray.push(array[i]);
             }
@@ -152,6 +153,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    let newArray =[];
+    for(let i=0; collection.length >i; i++){
+        newArray.push(iterator(collection[i]));
+    }
+    return newArray;
   };
 
   /*
@@ -193,6 +199,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+         iterator(accumulator,collection[0]);
   };
 
   // Determine if the array or object contains a given value (using `===`).
