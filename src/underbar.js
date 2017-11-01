@@ -130,7 +130,6 @@
     if(isSorted && iterator) {
       for(let i=0; array.length > i; i++){
         if(newArray.indexOf(array[i]) === -1){
-            console.log('iterator',iterator(array[i]))
             if(iterator(array[i])){
               newArray.push(array[i]);
             }
@@ -200,7 +199,7 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
          let result=0;
-         if(accumulator){
+         if(arguments[2] !== undefined){
             for(let i=0;collection.length >i;i++){
                 accumulator =iterator(accumulator,collection[i]);
             }
@@ -224,12 +223,24 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+    if(Array.isArray(collection)){      
+      return _.reduce(collection, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item === target;
+      }, false);
+    }else{
+      var isContain = false;
+
+      for(var key in collection){
+        if(collection[key] === target){
+          isContain = true;
+          break;
+        }
       }
-      return item === target;
-    }, false);
+      return isContain;
+    }
   };
 
 
