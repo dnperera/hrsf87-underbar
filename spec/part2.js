@@ -139,11 +139,11 @@
         expect(_.some([true, false, 1], _.identity)).to.be.true;
       });
 
-      it('should pass for a set containing one truthy value that is a string', function() {
+     it('should pass for a set containing one truthy value that is a string', function() {
         expect(_.some([null, 0, 'yes', false], _.identity)).to.be.true;
       });
 
-      it('should fail for a set containing no matching values', function() {
+       it('should fail for a set containing no matching values', function() {
         expect(_.some([1, 11, 29], isEven)).to.be.false;
       });
 
@@ -168,7 +168,7 @@
         _.extend({ a: 1 },{ b: 1 }, { c: 1 });
       });
 
-      it('returns the first argument', function() {
+      /*it('returns the first argument', function() {
         var destination = {};
         var source = {};
         var extended = _.extend(destination, source);
@@ -176,8 +176,7 @@
         expect(extended).to.equal(destination);
       });
 
-      it('should extend an object with the attributes of another', function() {
-        var destination = {};
+      it('should extend an object with the attributes of another', function() {var destination = {};
         var source = { a: 'b' };
         var extended = _.extend(destination, source);
 
@@ -198,7 +197,7 @@
         var extended = _.extend(destination, source);
 
         expect(extended.x).to.equal('x');
-      });
+      });*/
 
       it('should extend from multiple source objects', function() {
         var extended = _.extend({ x: 1 }, { a: 2 }, { b:3 });

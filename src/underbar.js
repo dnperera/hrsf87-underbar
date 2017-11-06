@@ -198,22 +198,32 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-         let result=0;
+         let result;
          if(arguments[2] !== undefined){
             for(let i=0;collection.length >i;i++){
                 accumulator =iterator(accumulator,collection[i]);
             }
             result =accumulator;
          }else{
-            if(iterator.length ===1){
-              result = iterator(collection[0]);
-
+            if(collection.length ===0){
+              
+              result=true;
+            
             }else{
-              for(let i=0;collection.length >i;i++){
-                if(iterator('total',collection[i])){
-                  result =iterator('total',collection[i]);
+                for(let i=0;collection.length >i;i++){
+                    //if(typeof(collection[i]) === "number"){
+                      if(i===0){
+                        result = collection[0];
+                      }else{
+                        result =iterator(result,collection[i]);
+                      }
+                    // }else {
+                    //   if(collection[i])
+                    //     result =true;
+                    //   else
+                    //     result =false;
+                    // }
                 }
-              }
             }
          }
       return result;
@@ -232,7 +242,6 @@
       }, false);
     }else{
       var isContain = false;
-
       for(var key in collection){
         if(collection[key] === target){
           isContain = true;
@@ -246,13 +255,65 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+      if(collection.length ===0){
+        return true;
+      }else{
+        //console.log(arguments[0],arguments[1]);
+        var isIteratorExist = true;
+        if(!arguments[1]){
+          isIteratorExist = false;
+        }
+        for(var i=0; collection.length >i;i++){
+          if(isIteratorExist){
+            if(!iterator(collection[i])){
+              return false;
+              break;
+            }
+          }else{
+            if(!collection[i]){
+              return false;
+              break;
+            }
+          }
+
+        }
+        return true;
+      }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+      if(collection.length ===0){
+        return false;
+      }else{
+        var results;
+        if(arguments[1])
+          results =_.every(collection,iterator);
+        else
+          results =_.every(collection);
+        
+        if(results){
+          return true;
+        }else{
+          var status = false;
+          for(var i=0; collection.length >i;i++){
+            if(arguments[1]){
+              if(iterator(collection[i])){
+                status = true;
+                break;
+              }
+            }else{
+              if(collection[i]){
+                status = true;
+                break;
+              }
+            }
+          }
+          return status;
+        }
+      }
   };
 
 
@@ -274,12 +335,40 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
+
   _.extend = function(obj) {
+      var newObject ={};
+      for(var i=0; arguments.length >i;i++){
+        var noOfKeys = Object.keys(arguments[i]).length;
+        if(noOfKeys >0 ){
+          for(var j=0;noOfKeys>j;j++){
+              newObject[Object.keys(arguments[i])[j]] = Object.values(arguments[i])[j];
+          }          
+        }
+      }
+
+      if(Object.keys(newObject).length ===0)
+        return arguments[0];
+      else
+        return newObject;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var targetObject =arguments[0];
+
+      for(var i=1; arguments.length >i;i++){
+          var noOfKeys = Object.keys(arguments[i]).length;
+          if(noOfKeys >0){
+            for(var j=0;noOfKeys>j;j++){
+              if(!targetObject.hasOwnProperty(Object.keys(arguments[i])[j])){
+                targetObject[Object.keys(arguments[i])[j]] = Object.values(arguments[i])[j];
+              }
+            }      
+          }
+      }
+      return targetObject;
   };
 
 
