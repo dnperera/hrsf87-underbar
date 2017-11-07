@@ -94,19 +94,12 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
-      let filteredArray =[];
-      for(let i=0;collection.length > i; i++ ){
-        if(test.name ==="isEven"){
-            if(test(collection[i])){
-              filteredArray.push(collection[i]);
-            }
-        }
-        if(test.name ==="isOdd"){
-            if(test(collection[i])){
-              filteredArray.push(collection[i]);
-            }
-        }
+    var filteredArray = [];
+    _.each(collection, function(item) {
+      if (test(item)) {
+        filteredArray.push(item);
       }
+    });
     return filteredArray;
   };
 
@@ -114,14 +107,9 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    let rejectedArray = _.filter(collection,test);
-    let filteredArray =[];
-    for(let i=0; collection.length >i; i++){
-        if(rejectedArray.indexOf(collection[i]) === -1){
-            filteredArray.push(collection[i]);
-        }
-    }
-    return filteredArray;
+    return _.filter(collection, function(item) {
+      return !test(item);
+    });
   };
 
   // Produce a duplicate-free version of the array.
@@ -476,6 +464,17 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+        return _.map(collection, function(item) {
+          var method;
+          if (typeof(functionOrKey) === 'string') {
+            method = item[functionOrKey];
+            console.log(method);
+          } else {
+            method = functionOrKey;
+            console.log(method);
+          }
+          return method.apply(item, args);
+        });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
