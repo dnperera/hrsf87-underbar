@@ -432,6 +432,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    if(arguments.length >2){
+      setTimeout(func,wait,arguments[2],arguments[3]);
+    }else {
+      setTimeout(func,wait);
+    }
   };
 
 
@@ -446,6 +451,17 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var newArray= array.slice(0);
+    var temp,ramNumber;
+    var i = array.length;
+    //using Fisher Yates Algorithm
+    while(--i >0){
+      ramNumber = Math.floor(Math.random()*(i+1));
+      temp =newArray[ramNumber];
+      newArray[ramNumber]=newArray[i]
+      newArray[i] =temp;
+    }
+    return  newArray;
   };
 
 
