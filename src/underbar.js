@@ -199,18 +199,11 @@
             
             }else{
                 for(let i=0;collection.length >i;i++){
-                    //if(typeof(collection[i]) === "number"){
                       if(i===0){
                         result = collection[0];
                       }else{
                         result =iterator(result,collection[i]);
                       }
-                    // }else {
-                    //   if(collection[i])
-                    //     result =true;
-                    //   else
-                    //     result =false;
-                    // }
                 }
             }
          }
